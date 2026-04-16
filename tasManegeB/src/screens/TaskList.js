@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, ImageBackground, TouchableOpacity, Platform, FlatList } from 'react-native'
 
 import todayImage from '../../assets/img/today.jpg'
-import Icon from 'react-native-vector-icons/FontAwesome'
+import { FontAwesome } from '@expo/vector-icons'
+import Task from '../components/Task'
 
 const taskDB = [
     {
@@ -35,7 +36,7 @@ export default function TaskList() {
 
                 <View style={styles.iconBar}>
                     <TouchableOpacity>
-                        <Icon
+                        <FontAwesome
                             name="eye"
                             size={20}
                             color={'white'}
@@ -59,7 +60,7 @@ export default function TaskList() {
                 <FlatList
                     data={taskDB}
                     keyExtractor={item => `${item.id}`}
-                    renderItem={({ item }) => <Text>{item.desc}</Text>}
+                    renderItem={({ item }) => <Task {...item} />}
                 />
             </View>
         </View>
@@ -83,7 +84,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginHorizontal: 20,
         justifyContent: 'flex-end',
-        marginTop: 20,
+        marginTop: 30,
     },
     titleBar: {
         flex: 1,
