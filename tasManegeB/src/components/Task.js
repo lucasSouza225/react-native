@@ -1,20 +1,46 @@
 import { View, Text, StyleSheet, TouchableWithoutFeedback } from "react-native";
+import { FontAwesome } from '@expo/vector-icons'
+
+import moment from 'moment'
+import 'moment/locale/pt-br'
 
 export default props => {
+
+    const doneOrNotStyle = props.doneAt != null ? { textDecorationLine: 'line-through' } : {}
+
+    const date = props.doneAt ? props.doneAt : props.estimateAt
+    const formattedDate = moment(date).locale('pt-br').format('ddd, D [de] MMMM [de] YYYY')
+
     return (
         <View style={styles.container}>
             <TouchableWithoutFeedback>
                 <View style={styles.checkContainer}>
-                    <View style={styles.pednding} />
+                    <View style={styles.pednding} >
+                        {getCheckerView(props.doneAt)}
+                    </View>
                 </View>
             </TouchableWithoutFeedback>
 
             <View style={styles.taskContent}>
-                <Text style={styles.desc}>{props.desc}</Text>
-                <Text style={styles.date}>{props.estimateAt.toLocaleDateString('pt-BR')}</Text>
+                <Text style={[styles.desc, doneOrNotStyle]}>{props.desc}</Text>
+                <Text style={[styles.date, doneOrNotStyle]}>{formattedDate}</Text>
             </View>
         </View>
     )
+}
+
+function getCheckerView(doneAt) {
+    if (doneAt != null) {
+        return (
+            <View style={styles.done}>
+                <FontAwesome name="check" size={20} color={'white'} />
+            </View>
+        )
+    } else {
+        return (
+            <View style={styles.pednding}></View>
+        )
+    }
 }
 
 const styles = StyleSheet.create({
@@ -26,11 +52,13 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         backgroundColor: 'white'
     },
+
     checkContainer: {
         width: '20%',
         alignItems: 'center',
         justifyContent: 'center'
     },
+
     pednding: {
         height: 25,
         width: 25,
@@ -38,13 +66,25 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#555'
     },
+
+    done: {
+        height: 25,
+        width: 25,
+        borderRadius: 13,
+        backgroundColor: '#4D7031',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+
     taskContent: {
         flex: 1 
     },
+
     desc: {
         color: '#222',
         fontSize: 16
     },
+
     date: {
         color: '#666',
         fontSize: 12

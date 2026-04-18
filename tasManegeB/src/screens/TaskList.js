@@ -1,32 +1,9 @@
-import { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, ImageBackground, TouchableOpacity, Platform, FlatList } from 'react-native'
 
 import todayImage from '../../assets/img/today.jpg'
 import { FontAwesome } from '@expo/vector-icons'
 import Task from '../components/Task'
-
-const taskDB = [
-    {
-        id: Math.random(),
-        desc: 'Ler o livro Fúria Vermelha',
-        estimateAt: new Date(),
-        doneAt: new Date()
-    },
-    {
-        id: Math.random(),
-        desc: 'Caminhar com o cachorro',
-        estimateAt: new Date(),
-        doneAt: new Date()
-    },
-    {
-        id: Math.random(),
-        desc: 'Assistir a série GOT',
-        estimateAt: new Date(),
-        doneAt: new Date()
-    }
-]
-
-
+import taskDB from '../database/taskDB'
 
 export default function TaskList() {
     return (
@@ -66,6 +43,7 @@ export default function TaskList() {
         </View>
     )
 }
+
 
 const styles = StyleSheet.create({
     container: {
