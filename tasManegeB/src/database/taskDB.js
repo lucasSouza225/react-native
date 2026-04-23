@@ -3,7 +3,7 @@ const taskDB = [
         id: Math.random(),
         desc: 'Ler o livro Fúria Vermelha',
         estimateAt: new Date(),
-        doneAt: new Date()
+        doneAt: null
     },
     {
         id: Math.random(),

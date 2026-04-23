@@ -6,24 +6,33 @@ import 'moment/locale/pt-br'
 
 export default props => {
 
-    const doneOrNotStyle = props.doneAt != null ? { textDecorationLine: 'line-through' } : {}
+    const doneOrNotStyle = props.doneAt != null
+        ? { textDecorationLine: 'line-through' }
+        : {}
 
-    const date = props.doneAt ? props.doneAt : props.estimateAt
-    const formattedDate = moment(date).locale('pt-br').format('ddd, D [de] MMMM [de] YYYY')
+    const date = props.doneAt
+        ? new Date(props.doneAt)
+        : new Date(props.estimateAt)
+
+    const formattedDate = moment(date)
+        .locale('pt-br')
+        .format('ddd, D [de] MMMM [de] YYYY')
 
     return (
         <View style={styles.container}>
-            <TouchableWithoutFeedback>
+            <TouchableWithoutFeedback onPress={() => props.onToggleTask(props.id)}>
                 <View style={styles.checkContainer}>
-                    <View style={styles.pednding} >
-                        {getCheckerView(props.doneAt)}
-                    </View>
+                    {getCheckerView(props.doneAt)}
                 </View>
             </TouchableWithoutFeedback>
 
             <View style={styles.taskContent}>
-                <Text style={[styles.desc, doneOrNotStyle]}>{props.desc}</Text>
-                <Text style={[styles.date, doneOrNotStyle]}>{formattedDate}</Text>
+                <Text style={[styles.desc, doneOrNotStyle]}>
+                    {props.desc}
+                </Text>
+                <Text style={[styles.date, doneOrNotStyle]}>
+                    {formattedDate}
+                </Text>
             </View>
         </View>
     )
@@ -38,7 +47,7 @@ function getCheckerView(doneAt) {
         )
     } else {
         return (
-            <View style={styles.pednding}></View>
+            <View style={styles.pending}></View>
         )
     }
 }
@@ -52,21 +61,18 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         backgroundColor: 'white'
     },
-
     checkContainer: {
         width: '20%',
         alignItems: 'center',
         justifyContent: 'center'
     },
-
-    pednding: {
+    pending: {
         height: 25,
         width: 25,
         borderRadius: 13,
         borderWidth: 1,
         borderColor: '#555'
     },
-
     done: {
         height: 25,
         width: 25,
@@ -75,16 +81,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
-
     taskContent: {
-        flex: 1 
+        flex: 1
     },
-
     desc: {
         color: '#222',
         fontSize: 16
     },
-
     date: {
         color: '#666',
         fontSize: 12
