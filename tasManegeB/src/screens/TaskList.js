@@ -7,10 +7,12 @@ import Task from '../components/Task'
 import taskDB from '../database/taskDB'
 import 'moment/locale/pt-br'
 import moment from 'moment-timezone'
+import AddTask from '../components/AddTask'
 
 export default function TaskList() {
 
     const [tasks, setTasks] = useState([...taskDB])
+    const [showAddTask, setShowAddTask] = useState(false)
 
     const today = moment()
         .tz('America/Sao_Paulo')
@@ -37,6 +39,12 @@ export default function TaskList() {
 
     return (
         <View style={styles.container}>
+
+            <AddTask 
+                isVisible={showAddTask}
+                onCancel={() => setShowAddTask(false)}
+                onSave={() => console.warn('salvando tarefa...')}
+            />
 
             <ImageBackground source={todayImage} style={styles.background}>
 
@@ -65,6 +73,13 @@ export default function TaskList() {
                     )}
                 />
             </View>
+
+            <TouchableOpacity style={styles.addButton}
+                activeOpecity={0.7}
+                onPress={()=>setShowAddTask(true)}>
+                <FontAwesome name="plus" size={20} color={'#fff'} />                
+            </TouchableOpacity>
+
         </View>
     )
 }
@@ -100,5 +115,16 @@ const styles = StyleSheet.create({
         fontSize: 20,
         marginLeft: 24,
         marginBottom: 32,
+    },
+    addButton: {
+        position: 'absolute',
+        right: 30,
+        bottom: 30,
+        width: 50,
+        height: 50,
+        backgroundColor: '#b13b44',
+        borderRadius: 25,
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 })
