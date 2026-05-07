@@ -1,52 +1,45 @@
-import { View, Text, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import { FontAwesome } from '@expo/vector-icons'
+import {View, Text, StyleSheet, TouchableWithoutFeedback, TouchableOpacity} from 'react-native'
 
 import moment from 'moment'
 import 'moment/locale/pt-br'
 
 export default props => {
 
-    const doneOrNotStyle = props.doneAt != null
-        ? { textDecorationLine: 'line-through' }
-        : {}
+    const doneOrNotStyle = props.doneAt != null ? {textDecorationLine: 'line-through'} : {}
 
-    const date = props.doneAt
-        ? new Date(props.doneAt)
-        : new Date(props.estimateAt)
+    const date = props.doneAt ? props.doneAt : props.estimateAt
 
-    const formattedDate = moment(date)
+    const formattedDate = 
+        moment(date)
         .locale('pt-br')
-        .format('ddd, D [de] MMMM [de] YYYY')
+        .format('ddd, D [de] MMMM')
 
-    return (
+    return(
         <View style={styles.container}>
-            <TouchableWithoutFeedback onPress={() => props.onToggleTask(props.id)}>
+            <TouchableWithoutFeedback 
+                onPress={() => props.onToggleTask(props.id)} >
                 <View style={styles.checkContainer}>
-                    {getCheckerView(props.doneAt)}
+                    {getCheckedView(props.doneAt)}
                 </View>
             </TouchableWithoutFeedback>
-
-            <View style={styles.taskContent}>
-                <Text style={[styles.desc, doneOrNotStyle]}>
-                    {props.desc}
-                </Text>
-                <Text style={[styles.date, doneOrNotStyle]}>
-                    {formattedDate}
-                </Text>
+            <View>
+                <Text style={[styles.desc, doneOrNotStyle]}>{props.desc}</Text>
+                <Text style={[styles.date, doneOrNotStyle]}>{formattedDate}</Text>
             </View>
         </View>
     )
 }
 
-function getCheckerView(doneAt) {
-    if (doneAt != null) {
+function getCheckedView(doneAt){
+    if(doneAt != null) {
         return (
             <View style={styles.done}>
-                <FontAwesome name="check" size={20} color={'white'} />
+                <FontAwesome name="check" size={20} color="white" />
             </View>
         )
     } else {
-        return (
+        return(
             <View style={styles.pending}></View>
         )
     }
@@ -55,11 +48,11 @@ function getCheckerView(doneAt) {
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        borderColor: '#AAA',
+        borderColor: '#aaa',
         borderBottomWidth: 1,
         alignItems: 'center',
         paddingVertical: 10,
-        backgroundColor: 'white'
+        backgroundColor: '#fff'
     },
     checkContainer: {
         width: '20%',
@@ -77,19 +70,16 @@ const styles = StyleSheet.create({
         height: 25,
         width: 25,
         borderRadius: 13,
-        backgroundColor: '#4D7031',
+        backgroundColor: '#4d7031',
         alignItems: 'center',
         justifyContent: 'center'
-    },
-    taskContent: {
-        flex: 1
     },
     desc: {
         color: '#222',
         fontSize: 16
     },
     date: {
-        color: '#666',
+        color: '#555',
         fontSize: 12
     }
 })
